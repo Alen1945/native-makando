@@ -9,7 +9,7 @@ import {
 import {Button, Input} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-export default function Login() {
+export default function Login(props) {
   return (
     <View
       style={{
@@ -129,7 +129,8 @@ export default function Login() {
             <Text style={{fontSize: 15, color: '#666'}}>
               Dont Have an Account?
             </Text>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => props.navigation.navigate('Register')}>
               <Text style={{fontSize: 15, color: '#666', fontWeight: 'bold'}}>
                 &nbsp;Register
               </Text>

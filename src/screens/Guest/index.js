@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {Button} from 'react-native-elements';
-export default function Guest() {
+export default function Guest(props) {
   return (
     <>
       <View
@@ -110,6 +110,7 @@ export default function Guest() {
             <Button
               title="Create Account"
               type="solid"
+              onPress={() => props.navigation.navigate('Register')}
               containerStyle={{
                 shadowColor: 'rgba(0,0,0,0.00123)',
                 borderWidth: 0.5,
@@ -133,7 +134,8 @@ export default function Guest() {
               <Text style={{fontSize: 15, color: '#666'}}>
                 Already Have Account?
               </Text>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => props.navigation.navigate('Login')}>
                 <Text style={{fontSize: 15, color: '#666', fontWeight: 'bold'}}>
                   &nbsp;Login
                 </Text>

@@ -1,8 +1,8 @@
 import React from 'react';
-import {View, Text, ScrollView, Image} from 'react-native';
+import {View, Text, ScrollView, Image, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {Input, Button} from 'react-native-elements';
-export default function RegisterScreen() {
+export default function RegisterScreen(props) {
   return (
     <View style={{paddingTop: 20, paddingHorizontal: 10, flex: 1}}>
       <View style={{height: 250, marginBottom: 15, alignItems: 'center'}}>
@@ -15,7 +15,7 @@ export default function RegisterScreen() {
             textAlign: 'center',
             fontWeight: 'bold',
             color: '#233333',
-            fontSize: 28,
+            fontSize: 25,
             color: '#ed574e',
           }}>
           Register To Our App
@@ -79,9 +79,25 @@ export default function RegisterScreen() {
             buttonStyle={{backgroundColor: '#ed574e', height: 50}}
             titleStyle={{fontSize: 16, fontWeight: 'bold'}}
             raised={true}
-            containerStyle={{marginBottom: 10}}
+            containerStyle={{marginBottom: 25}}
             title="Register"
           />
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            marginBottom: 25,
+          }}>
+          <Text style={{fontSize: 15, color: '#666'}}>
+            Already Have Account?&nbsp;&nbsp;
+          </Text>
+          <TouchableOpacity onPress={() => props.navigation.navigate('Login')}>
+            <Text style={{fontSize: 15, color: '#666', fontWeight: 'bold'}}>
+              Login
+            </Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </View>

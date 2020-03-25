@@ -6,10 +6,8 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
-import {Button, Input} from 'react-native-elements';
-import Icon from 'react-native-vector-icons/FontAwesome5';
-
-export default function Login(props) {
+import FormLogin from './components/FormLogin';
+function Login(props) {
   return (
     <View
       style={{
@@ -87,40 +85,7 @@ export default function Login(props) {
               MakanDO
             </Text>
           </View>
-          <Input
-            focus
-            placeholder="username"
-            leftIcon={<Icon name="user" color="#333" size={18} />}
-            inputStyle={{paddingHorizontal: 18}}
-            inputContainerStyle={{
-              height: 50,
-              borderWidth: 1,
-              borderColor: '#444',
-              borderRadius: 50,
-              marginBottom: 25,
-            }}
-          />
-          <Input
-            secureTextEntry
-            placeholder="password"
-            leftIcon={<Icon name="key" color="#333" size={18} />}
-            inputStyle={{paddingHorizontal: 18}}
-            inputContainerStyle={{
-              height: 50,
-              borderWidth: 1,
-              borderColor: '#444',
-              borderRadius: 50,
-              marginBottom: 25,
-            }}
-          />
-          <Button
-            type="solid"
-            buttonStyle={{backgroundColor: '#ed574e', width: 200, height: 50}}
-            titleStyle={{fontSize: 16, fontWeight: 'bold'}}
-            raised={true}
-            containerStyle={{marginBottom: 20}}
-            title="LogIn"
-          />
+          <FormLogin />
           <View
             style={{
               flexDirection: 'row',
@@ -141,3 +106,4 @@ export default function Login(props) {
     </View>
   );
 }
+export default Login;

@@ -4,8 +4,13 @@ import submitData from '../../helpers/submitData';
 export const ActionLogin = data => async dispatch => {
   try {
     const response = await submitData('/login', data);
-    console.log(response);
+    dispatch({
+      type: SET_USER_LOGIN,
+      payload: response.data,
+    });
+    return response;
   } catch (e) {
-    throw new Error(e);
+    console.log('error', e);
+    throw e;
   }
 };

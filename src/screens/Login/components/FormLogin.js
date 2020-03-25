@@ -3,11 +3,12 @@ import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {Button, Input} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import {connect} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {ActionLogin} from '../../../store/actions/actionsUserData';
 import alert from '../../../components/alert';
 
 function FormLogin(props) {
+  const dispatch = useDispatch();
   return (
     <Formik
       initialValues={{username: '', password: ''}}
@@ -17,10 +18,8 @@ function FormLogin(props) {
       })}
       onSubmit={async values => {
         try {
-          const response = await props.ActionLogin(values);
-          if (response.data.success) {
-            alert(response.data.success, response.data.msg);
-          } else {
+          const response = await dispatch(ActionLogin(values));
+          if (!response.data.success) {
             alert(response.data.success, response.data.msg);
           }
         } catch (err) {
@@ -80,7 +79,4 @@ function FormLogin(props) {
   );
 }
 
-export default connect(
-  null,
-  {ActionLogin},
-)(FormLogin);
+export default FormLogin;

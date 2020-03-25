@@ -4,9 +4,9 @@ import submitData from '../../helpers/submitData';
 export const ActionLogin = data => async dispatch => {
   try {
     const response = await submitData('/login', data);
-    dispatch({
+    await dispatch({
       type: SET_USER_LOGIN,
-      payload: response.data,
+      payload: response.data.data,
     });
     return response;
   } catch (e) {

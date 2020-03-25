@@ -6,13 +6,14 @@ const initialState = {
 };
 
 const dataUser = (state = initialState, action) => {
+  console.log(action);
   switch (action.type) {
     case SET_USER_LOGIN:
       return {
         ...state,
         token: action.payload.token,
         isLogin: true,
-        dataProfile: action.payload.dataProfile,
+        dataProfile: action.payload.dataUser,
       };
     case SET_USER_PROFILE:
       return {

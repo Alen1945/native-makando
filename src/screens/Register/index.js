@@ -1,7 +1,9 @@
 import React from 'react';
-import {View, Text, ScrollView, Image, TouchableOpacity} from 'react-native';
+import {View, Text, Image, TouchableOpacity} from 'react-native';
+import {ScrollView} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {Input, Button} from 'react-native-elements';
+import alert from '../../components/alert';
 export default function RegisterScreen(props) {
   return (
     <View style={{paddingTop: 20, paddingHorizontal: 10, flex: 1}}>

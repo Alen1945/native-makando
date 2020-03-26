@@ -81,10 +81,14 @@ function Items(props) {
                     uri: `${API_URL}/${lastOrder.images}`,
                   }}
                 />
-                <Text style={{color: 'white'}}>{lastOrder.name}</Text>
+                <Text style={{color: 'white', textAlign: 'center'}}>
+                  {lastOrder.name}
+                </Text>
               </>
             ) : (
-              <Text style={{color: 'white'}}>What You want Today</Text>
+              <Text style={{color: 'white', textAlign: 'center'}}>
+                What You want Today
+              </Text>
             )}
             <Button
               color="white"

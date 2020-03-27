@@ -1,4 +1,9 @@
-import {SET_USER_LOGIN, SET_USER_PROFILE} from '../actions/actionTypes';
+import {
+  USER_LOGIN,
+  USER_LOGOUT,
+  REFRESH_USER_TOKEN,
+  SET_USER_PROFILE,
+} from '../actions/actionTypes';
 const initialState = {
   token: '',
   dataProfile: {},
@@ -7,7 +12,8 @@ const initialState = {
 
 const dataUser = (state = initialState, action) => {
   switch (action.type) {
-    case SET_USER_LOGIN:
+    case USER_LOGIN:
+    case REFRESH_USER_TOKEN:
       return {
         ...state,
         token: action.payload.token,
@@ -19,6 +25,8 @@ const dataUser = (state = initialState, action) => {
         ...state,
         dataProfile: action.payload,
       };
+    case USER_LOGOUT:
+      return initialState;
     default:
       return state;
   }

@@ -2,6 +2,7 @@ import {
   GET_USER_CART,
   ADD_ITEM_CART,
   CLEAR_USER_CART,
+  UPADATE_ITEM_CART,
 } from '../actions/actionTypes';
 
 const initialState = {
@@ -37,7 +38,7 @@ const dataCart = (state = initialState, action) => {
             ...state.itemInCart,
             [keyItem]: {
               ...state.itemInCart[keyItem],
-              total_items: state.itemInCart[keyItem].total_items + 1,
+              total_items: parseInt(state.itemInCart[keyItem].total_items) + 1,
             },
           },
         };
@@ -50,6 +51,17 @@ const dataCart = (state = initialState, action) => {
           },
         };
       }
+    case UPADATE_ITEM_CART:
+      return {
+        ...state,
+        itemInCart: {
+          ...state.itemInCart,
+          [action.keyItem]: {
+            ...state.itemInCart[action.keyItem],
+            total_items: action.payload.total_items,
+          },
+        },
+      };
     case CLEAR_USER_CART:
       return initialState;
     default:

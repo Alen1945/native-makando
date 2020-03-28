@@ -51,7 +51,7 @@ export const updateItemCart = (keyItem, idCart, data) => async dispatch => {
     const response = await patchData('/carts/' + idCart, data);
     console.log('update', response.data);
     if (response.data && response.data.success) {
-      dispatch({
+      await dispatch({
         type: UPADATE_ITEM_CART,
         payload: data,
         keyItem: keyItem,
@@ -66,7 +66,7 @@ export const removeItemCart = (keyItem, idCart) => async dispatch => {
   try {
     const response = await deleteData('/carts/' + idCart);
     if (response.data && response.data) {
-      dispatch({
+      await dispatch({
         type: REMOVE_ITEM_CART,
         keyItem: keyItem,
       });

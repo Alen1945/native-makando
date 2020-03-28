@@ -3,11 +3,13 @@ import {
   ADD_ITEM_CART,
   UPADATE_ITEM_CART,
   CLEAR_USER_CART,
+  REMOVE_ITEM_CART,
 } from './actionTypes';
 
 import getData from '../../helpers/getData';
 import submitData from '../../helpers/submitData';
 import patchData from '../../helpers/patchData';
+import deleteData from '../../helpers/deleteData';
 export const getUserCart = () => async dispatch => {
   try {
     const response = await getData('/carts');
@@ -52,6 +54,20 @@ export const updateItemCart = (keyItem, idCart, data) => async dispatch => {
       dispatch({
         type: UPADATE_ITEM_CART,
         payload: data,
+        keyItem: keyItem,
+      });
+    }
+    return response;
+  } catch (err) {
+    throw err;
+  }
+};
+export const removeItemCart = (keyItem, idCart) => async dispatch => {
+  try {
+    const response = await deleteData('/carts/' + idCart);
+    if (response.data && response.data) {
+      dispatch({
+        type: REMOVE_ITEM_CART,
         keyItem: keyItem,
       });
     }

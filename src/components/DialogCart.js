@@ -1,8 +1,8 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, Alert} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
-import {updateItemCart} from '../store/actions/actionUserCart';
+import {updateItemCart, removeItemCart} from '../store/actions/actionUserCart';
 import {useNavigation} from '@react-navigation/native';
 import {Input, Button, Card} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -14,19 +14,43 @@ export default function DialogCart(props) {
   const {itemInCart} = useSelector(state => state.dataCart);
   const dispatch = useDispatch();
   const [hide, setHide] = React.useState(false);
+  const showDeleteAlert = (deleteItem, idCart) => {
+    const keyItem = `${deleteItem.name_item}_${deleteItem.id_item}`;
+    Alert.alert(
+      'Remove Item',
+      `Are You Sure to Remove ${deleteItem.name_item}?`,
+      [
+        {
+          text: 'Ok',
+          onPress: () => {
+            removeItem(keyItem, idCart);
+          },
+        },
+        {text: 'Cancel'},
+      ],
+    );
+  };
+  const removeItem = async (keyItem, idCart) => {
+    try {
+      const response = await dispatch(removeItemCart(keyItem, idCart));
+      console.log(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <>
-      {visible && (
+      {visible && itemInCart[keyUpdateItem] && (
         <View
           style={{
             position: 'absolute',
             backgroundColor: '#fff',
             right: 0,
             left: 0,
-            bottom: !hide ? 0 : -290,
-            height: 300,
+            bottom: !hide ? 0 : -310,
+            height: 320,
             padding: 10,
-            paddingTop: 20,
+            paddingTop: 30,
             elevation: 4,
           }}>
           <View style={{position: 'absolute', top: -20, left: '47%'}}>
@@ -43,13 +67,61 @@ export default function DialogCart(props) {
               }}>
               <Icon
                 name={`${hide ? 'angle-up' : 'angle-down'}`}
-                color="#555"
+                color="#ed574e"
                 size={23}
               />
             </TouchableOpacity>
           </View>
-          <View style={{height: 100, marginBottom: 20}}>
-            <Text style={{color: '#555', fontSize: 16, marginBottom: 5}}>
+          <View style={{height: 100, marginBottom: 30}}>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginBottom: 10,
+              }}>
+              <TouchableOpacity
+                onPress={() =>
+                  showDeleteAlert(
+                    {
+                      name_item: itemInCart[keyUpdateItem].name_item,
+                      id_item: itemInCart[keyUpdateItem].id_item,
+                    },
+                    itemInCart[keyUpdateItem]._id,
+                  )
+                }
+                style={{
+                  marginRight: 6,
+                  backgroundColor: '#ed574e',
+                  padding: 3,
+                  paddingHorizontal: 5,
+                  borderRadius: 4,
+                }}>
+                <Icon name="trash" size={14} color="#eee" />
+              </TouchableOpacity>
+              <Text
+                style={{
+                  textAlign: 'center',
+                  color: '#444',
+                  fontSize: 19,
+                  marginRight: 5,
+                }}>
+                {itemInCart[keyUpdateItem].name_item}
+              </Text>
+              <Text
+                style={{
+                  fontWeight: 'bold',
+                  color: '#ed574e',
+                  fontSize: 17,
+                  backgroundColor: '#fefefe',
+                  padding: 2,
+                  paddingHorizontal: 4,
+                  borderRadius: 4,
+                }}>
+                {itemInCart[keyUpdateItem].total_items}
+              </Text>
+            </View>
+            <Text style={{color: '#444', fontSize: 16, marginBottom: 5}}>
               Update Total Items
             </Text>
             <View style={{marginTop: 5}}>
@@ -82,7 +154,7 @@ export default function DialogCart(props) {
                   }
                 }}>
                 {formikProps => (
-                  <View style={{flexDirection: 'row'}}>
+                  <View style={{flexDirection: 'row', alignItems: 'center'}}>
                     <Input
                       placeholder="Total Items"
                       value={`${formikProps.values.total_items}`}
@@ -117,92 +189,103 @@ export default function DialogCart(props) {
               </Formik>
             </View>
           </View>
-          <View style={{flex: 1}}>
-            <Text style={{color: '#555', fontSize: 16, marginBottom: 6}}>
-              Item In Cart
-            </Text>
-            <ScrollView showsVerticalScrollIndicator={false}>
-              <View
-                style={{
-                  justifyContent: 'space-around',
-                  flexDirection: 'row',
-                  flexWrap: 'wrap',
-                }}>
-                {itemInCart &&
-                  Object.keys(itemInCart)
-                    .reverse()
-                    .map(keyItem => (
-                      <View
-                        key={itemInCart[keyItem].id_item}
-                        style={{
-                          backgroundColor: '#eee',
-                          borderRadius: 4,
-                          height: 30,
-                          paddingHorizontal: 5,
-                          margin: 5,
-                          minWidth: 150,
-                          marginHorizontal: 5,
-                          justifyContent: 'center',
-                          position: 'relative',
-                        }}>
+          {Object.keys(itemInCart).length > 1 && (
+            <View style={{flex: 1}}>
+              <Text style={{color: '#444', fontSize: 16, marginBottom: 6}}>
+                Another Item In Cart
+              </Text>
+              <ScrollView showsVerticalScrollIndicator={false}>
+                <View
+                  style={{
+                    justifyContent: 'space-around',
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
+                  }}>
+                  {itemInCart &&
+                    Object.keys(itemInCart)
+                      .reverse()
+                      .filter(keyItem => keyItem !== keyUpdateItem)
+                      .map(keyItem => (
                         <View
-                          style={{position: 'absolute', top: -5, left: -10}}>
-                          <TouchableOpacity>
-                            <Icon
-                              name="times-circle"
-                              size={20}
-                              style={{color: '#ed574e'}}
-                            />
-                          </TouchableOpacity>
-                        </View>
-                        <View
+                          key={itemInCart[keyItem].id_item}
                           style={{
-                            flex: 1,
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            justifyContent: 'space-around',
+                            backgroundColor: '#eee',
+                            borderRadius: 4,
+                            height: 30,
+                            paddingHorizontal: 5,
+                            margin: 5,
+                            minWidth: 150,
+                            marginHorizontal: 5,
+                            justifyContent: 'center',
+                            position: 'relative',
                           }}>
-                          <TouchableOpacity
-                            onPress={() =>
-                              navigation.navigate('DetailScreens', {
-                                screen: 'DetailItem',
-                                params: {
-                                  id: itemInCart[keyItem].id_item,
-                                },
-                              })
-                            }>
+                          <View
+                            style={{
+                              position: 'absolute',
+                              top: -5,
+                              left: -10,
+                            }}>
+                            <TouchableOpacity
+                              onPress={() =>
+                                showDeleteAlert(
+                                  {
+                                    name_item: itemInCart[keyItem].name_item,
+                                    id_item: itemInCart[keyItem].id_item,
+                                  },
+                                  itemInCart[keyItem]._id,
+                                )
+                              }>
+                              <Icon
+                                name="times-circle"
+                                size={20}
+                                style={{color: '#ed574e'}}
+                              />
+                            </TouchableOpacity>
+                          </View>
+                          <View
+                            style={{
+                              flex: 1,
+                              flexDirection: 'row',
+                              alignItems: 'center',
+                              justifyContent: 'space-around',
+                            }}>
+                            <TouchableOpacity
+                              onPress={() =>
+                                navigation.navigate('DetailScreens', {
+                                  screen: 'DetailItem',
+                                  params: {
+                                    id: itemInCart[keyItem].id_item,
+                                  },
+                                })
+                              }>
+                              <Text
+                                style={{
+                                  textAlign: 'center',
+                                  color: '#555',
+                                }}>
+                                {itemInCart[keyItem].name_item}
+                              </Text>
+                            </TouchableOpacity>
                             <Text
                               style={{
                                 textAlign: 'center',
-                                color: `${
-                                  itemInCart[keyUpdateItem]._id ===
-                                  itemInCart[keyItem]._id
-                                    ? '#4cb3d4'
-                                    : '#555'
-                                }`,
+                                backgroundColor: '#fff',
+                                color: '#f54251',
+                                padding: 2,
+                                paddingHorizontal: 4,
+                                minWidth: 20,
+                                borderRadius: 5,
+                                fontWeight: 'bold',
                               }}>
-                              {itemInCart[keyItem].name_item}
+                              {itemInCart[keyItem].total_items}
                             </Text>
-                          </TouchableOpacity>
-                          <Text
-                            style={{
-                              textAlign: 'center',
-                              backgroundColor: '#fff',
-                              color: '#f54251',
-                              padding: 2,
-                              paddingHorizontal: 4,
-                              minWidth: 20,
-                              borderRadius: 5,
-                              fontWeight: 'bold',
-                            }}>
-                            {itemInCart[keyItem].total_items}
-                          </Text>
+                          </View>
                         </View>
-                      </View>
-                    ))}
-              </View>
-            </ScrollView>
-          </View>
+                      ))}
+                </View>
+              </ScrollView>
+            </View>
+          )}
         </View>
       )}
     </>

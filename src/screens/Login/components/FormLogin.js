@@ -5,6 +5,7 @@ import {Button, Input} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {useDispatch} from 'react-redux';
 import {ActionLogin} from '../../../store/actions/actionsUserData';
+import {getUserCart} from '../../../store/actions/actionUserCart';
 import alert from '../../../components/alert';
 
 function FormLogin(props) {
@@ -19,6 +20,7 @@ function FormLogin(props) {
       onSubmit={async values => {
         try {
           const response = await dispatch(ActionLogin(values));
+          await dispatch(getUserCart());
           if (!response.data.success) {
             alert(response.data.success, response.data.msg);
           }

@@ -3,6 +3,7 @@ import {
   ADD_ITEM_CART,
   CLEAR_USER_CART,
   UPADATE_ITEM_CART,
+  REMOVE_ITEM_CART,
 } from '../actions/actionTypes';
 
 const initialState = {
@@ -62,6 +63,13 @@ const dataCart = (state = initialState, action) => {
           },
         },
       };
+    case REMOVE_ITEM_CART:
+      const stateNow = Object.assign(state);
+      if (delete stateNow.itemInCart[action.keyItem]) {
+        return {
+          ...stateNow,
+        };
+      }
     case CLEAR_USER_CART:
       return initialState;
     default:

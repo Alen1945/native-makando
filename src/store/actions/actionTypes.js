@@ -6,4 +6,5 @@ export const USER_LOGOUT = 'USER_LOGOUT';
 export const GET_USER_CART = 'GET_USER_CART';
 export const ADD_ITEM_CART = 'ADD_ITEM_CART';
 export const UPADATE_ITEM_CART = 'UPADATE_ITEM_CART';
+export const REMOVE_ITEM_CART = 'REMOVE_ITEM_CART';
 export const CLEAR_USER_CART = 'CLEAR_USER_CART';

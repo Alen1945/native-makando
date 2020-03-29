@@ -17,6 +17,7 @@ function Items(props) {
   const [activeCategory, setActiveCategory] = React.useState(0);
   const [categories, setCategories] = React.useState([]);
   const [items, setItems] = React.useState([]);
+  const [search, setSearch] = React.useState('');
   const getCategories = async () => {
     try {
       const response = await getData('/browse-categories?limit=10&sort[_id]=1');
@@ -34,13 +35,12 @@ function Items(props) {
       if (category) {
         url = `/browse-categories/${category}?${condition}`;
       }
-      // if (search && search.trim()) {
-      //   console.log(search);
-      //   url += `&search[name]=${search}`;
-      // }
+      if (search && search.trim()) {
+        url += `&search[name]=${search}`;
+      }
       const response = await getData(url);
       if (response.data && response.data.success) {
-        setItems(response.data.dataItems);
+        setItems(response.data);
       }
     } catch (err) {
       console.log(err);
@@ -52,7 +52,7 @@ function Items(props) {
   React.useEffect(() => {
     getCategories();
     getItems(1, activeCategory);
-  }, [activeCategory]);
+  }, [activeCategory, search]);
   return (
     <View
       style={{flex: 1, backgroundColor: '#fff', padding: 10, paddingTop: 20}}>
@@ -61,6 +61,8 @@ function Items(props) {
           <SearchBar
             placeholder="Search Here..."
             round={false}
+            value={search}
+            onChangeText={value => setSearch(value)}
             searchIcon={<Icon name="search" size={15} color="#999" />}
             containerStyle={{
               backgroundColor: 'rgba(0,0,0,0)',
@@ -152,7 +154,7 @@ function Items(props) {
       </View>
       <View style={{paddingBottom: 150, paddingHorizontal: 5}}>
         <FlatList
-          data={items}
+          data={items.dataItems}
           keyExtractor={item => item.name + item._id}
           showsVerticalScrollIndicator={false}
           renderItem={({item}) => (

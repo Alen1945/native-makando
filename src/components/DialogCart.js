@@ -79,6 +79,27 @@ export default function DialogCart(props) {
               />
             </TouchableOpacity>
           </View>
+          <Button
+            onPress={() => navigation.navigate('Carts')}
+            containerStyle={{
+              position: 'absolute',
+              right: 0,
+            }}
+            buttonStyle={{
+              borderBottomStartRadius: 35,
+              backgroundColor: '#ed574e',
+              height: 30,
+              justifyContent: 'center',
+              width: 110,
+            }}
+            titleStyle={{
+              color: 'white',
+              textAlign: 'center',
+              fontSize: 12,
+              fontWeight: 'bold',
+            }}
+            title="Checkout Now"
+          />
           <View style={{height: 100, marginBottom: 30}}>
             <View
               style={{
@@ -157,6 +178,7 @@ export default function DialogCart(props) {
                     );
                     if (response.data && response.data.success) {
                       console.log(response.data.data);
+                      alert(response.data.success, response.data.msg);
                     } else {
                       alert(response.data.success, response.data.msg);
                     }

@@ -30,7 +30,7 @@ export default function Carts(props) {
       </View>
       <ScrollView>
         <View
-          style={{paddingHorizontal: 10, paddingBottom: 20, paddingLeft: 40}}>
+          style={{paddingHorizontal: 10, paddingBottom: 40, paddingLeft: 40}}>
           {dataCart &&
             Object.keys(dataCart.itemInCart)
               .sort()

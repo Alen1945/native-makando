@@ -25,10 +25,58 @@ export default function DetailCart(props) {
   return (
     <View style={{flex: 1}}>
       {!succesCheckout && (
-        <View style={{paddingHorizontal: 10}}>
-          <Text>Total Type Items {detailCart.totalTypeItems}</Text>
-          <Text>Total Price Items {detailCart.totalPrice}</Text>
-          <Button title="Checkout Items" onPress={handleCheckout} />
+        <View
+          style={{
+            paddingHorizontal: 10,
+            alignItems: 'center',
+            flex: 1,
+            justifyContent: 'center',
+          }}>
+          <Text
+            style={{
+              fontSize: 30,
+              color: 'red',
+              fontWeight: 'bold',
+              marginBottom: 10,
+            }}>
+            One More Step
+          </Text>
+          <Image
+            source={require('../../../icons/getCheckout.png')}
+            style={{width: 200, marginBottom: 10}}
+          />
+          <Text
+            style={{
+              fontSize: 18,
+              color: 'red',
+              fontWeight: 'bold',
+              marginBottom: 10,
+            }}>
+            Detail
+          </Text>
+          <Text
+            style={{
+              fontSize: 15,
+              fontWeight: 'bold',
+              marginTop: 5,
+              color: '#777',
+            }}>
+            Total Type Items : {detailCart.totalTypeItems}
+          </Text>
+          <Text
+            style={{
+              fontSize: 18,
+              fontWeight: 'bold',
+              marginVertical: 10,
+              color: '#555',
+            }}>
+            Total Price Items : {detailCart.totalPrice}
+          </Text>
+          <Button
+            title="Checkout Items"
+            style={{fontSize: 20}}
+            onPress={handleCheckout}
+          />
         </View>
       )}
       {succesCheckout && (
@@ -53,11 +101,11 @@ export default function DetailCart(props) {
             height="auto"
             style={{
               height: 180,
+              marginBottom: 20,
             }}
           />
-          <Button title="Show Log Transaction" />
           <Button
-            title="Show Items"
+            title="Back"
             onPress={() => {
               props.navigation.navigate('Items');
             }}

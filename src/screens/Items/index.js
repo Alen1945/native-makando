@@ -14,6 +14,7 @@ import {API_URL} from 'react-native-dotenv';
 import formatRupiah from '../../helpers/formatRupiah';
 function Items(props) {
   const {navigation} = props;
+  const [activeCategory, setActiveCategory] = React.useState(0);
   const [categories, setCategories] = React.useState([]);
   const [items, setItems] = React.useState([]);
   const getCategories = async () => {
@@ -26,9 +27,18 @@ function Items(props) {
       console.log(err);
     }
   };
-  const getItems = async () => {
+  const getItems = async (page, category) => {
     try {
-      const response = await getData('/browse-items?limit=10&sort[_id]=1');
+      const condition = `limit=5&sort[created_at]=1&page=${page}`;
+      let url = `/browse-items?${condition}`;
+      if (category) {
+        url = `/browse-categories/${category}?${condition}`;
+      }
+      // if (search && search.trim()) {
+      //   console.log(search);
+      //   url += `&search[name]=${search}`;
+      // }
+      const response = await getData(url);
       if (response.data && response.data.success) {
         setItems(response.data.dataItems);
       }
@@ -36,10 +46,13 @@ function Items(props) {
       console.log(err);
     }
   };
+  const handleChangeCategory = categoryId => {
+    setActiveCategory(categoryId);
+  };
   React.useEffect(() => {
     getCategories();
-    getItems();
-  }, []);
+    getItems(1, activeCategory);
+  }, [activeCategory]);
   return (
     <View
       style={{flex: 1, backgroundColor: '#fff', padding: 10, paddingTop: 20}}>
@@ -75,21 +88,61 @@ function Items(props) {
               alignItems: 'flex-start',
               paddingVertical: 10,
             }}>
+            <View style={{width: 80, marginHorizontal: 3}}>
+              <Button
+                title="Show All"
+                onPress={() => handleChangeCategory(0)}
+                type={parseInt(activeCategory) === 0 ? 'solid' : 'outline'}
+                containerStyle={{width: '100%'}}
+                buttonStyle={{
+                  borderColor: `${
+                    parseInt(activeCategory) === 0 ? '#fff' : '#f54251'
+                  }`,
+                  backgroundColor: `${
+                    parseInt(activeCategory) === 0 ? '#f54251' : '#fff'
+                  }`,
+                }}
+                titleStyle={{
+                  fontSize: 12,
+                  color: `${
+                    parseInt(activeCategory) == 0 ? '#fff' : '#f54251'
+                  }`,
+                }}
+              />
+            </View>
             {categories &&
               categories.map(category => (
                 <View
                   style={{width: 80, marginHorizontal: 3}}
                   key={category._id}>
                   <Button
+                    onPress={() => handleChangeCategory(category._id)}
                     title={category.name}
-                    type="outline"
+                    type={
+                      parseInt(activeCategory) === category._id
+                        ? 'solid'
+                        : 'outline'
+                    }
                     containerStyle={{width: '100%'}}
                     buttonStyle={{
-                      borderColor: '#f54251',
+                      borderColor: `${
+                        parseInt(activeCategory) === category._id
+                          ? '#fff'
+                          : '#f54251'
+                      }`,
+                      backgroundColor: `${
+                        parseInt(activeCategory) === category._id
+                          ? '#f54251'
+                          : '#fff'
+                      }`,
                     }}
                     titleStyle={{
                       fontSize: 12,
-                      color: '#f54251',
+                      color: `${
+                        parseInt(activeCategory) == category._id
+                          ? '#fff'
+                          : '#f54251'
+                      }`,
                     }}
                   />
                 </View>

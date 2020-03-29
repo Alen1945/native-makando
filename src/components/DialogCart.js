@@ -20,13 +20,13 @@ export default function DialogCart(props) {
       'Remove Item',
       `Are You Sure to Remove ${deleteItem.name_item}?`,
       [
+        {text: 'Cancel'},
         {
           text: 'Ok',
           onPress: () => {
             removeItem(keyItem, idCart);
           },
         },
-        {text: 'Cancel'},
       ],
     );
   };

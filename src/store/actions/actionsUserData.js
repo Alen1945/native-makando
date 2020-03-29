@@ -1,4 +1,9 @@
-import {USER_LOGIN, USER_LOGOUT, REFRESH_USER_TOKEN} from './actionTypes';
+import {
+  USER_LOGIN,
+  SET_USER_PROFILE,
+  USER_LOGOUT,
+  REFRESH_USER_TOKEN,
+} from './actionTypes';
 import submitData from '../../helpers/submitData';
 import getData from '../../helpers/getData';
 export const ActionLogin = data => async dispatch => {
@@ -14,6 +19,20 @@ export const ActionLogin = data => async dispatch => {
   } catch (e) {
     console.log('error', e);
     throw e;
+  }
+};
+export const setUserProfile = () => async dispatch => {
+  try {
+    const response = await getData('/profile');
+    if (response.data && response.data.success) {
+      dispatch({
+        type: SET_USER_PROFILE,
+        payload: response.data.data,
+      });
+      return response;
+    }
+  } catch (err) {
+    throw err;
   }
 };
 

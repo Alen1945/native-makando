@@ -35,7 +35,7 @@ function Items(props) {
       if (category) {
         url = `/browse-categories/${category}?${condition}`;
       }
-      if (search && search.trim()) {
+      if (search && search.trim() && search.length > 3) {
         url += `&search[name]=${search}`;
       }
       const response = await getData(url);
@@ -51,8 +51,17 @@ function Items(props) {
   };
   React.useEffect(() => {
     getCategories();
+  }, []);
+  React.useEffect(() => {
     getItems(1, activeCategory);
-  }, [activeCategory, search]);
+  }, [activeCategory]);
+  React.useEffect(() => {
+    if (search && search.trim() && search.length > 3) {
+      getItems(1, activeCategory);
+    } else if (search.length === 0) {
+      getItems(1, activeCategory);
+    }
+  }, [search]);
   return (
     <View
       style={{flex: 1, backgroundColor: '#fff', padding: 10, paddingTop: 20}}>
@@ -152,7 +161,7 @@ function Items(props) {
           </View>
         </ScrollView>
       </View>
-      <View style={{paddingBottom: 150, paddingHorizontal: 5}}>
+      <View style={{marginBottom: 100, paddingHorizontal: 5}}>
         <FlatList
           data={items.dataItems}
           keyExtractor={item => item.name + item._id}
@@ -187,6 +196,22 @@ function Items(props) {
           )}
         />
       </View>
+      {(!items.dataItems || !items.dataItems.length) && (
+        <View
+          style={{
+            paddingTop: 20,
+            paddingHorizontal: 10,
+            marginTop: -90,
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <Text style={{marginBottom: 20, color: '#444', fontSize: 20}}>
+            Data Empty
+          </Text>
+          <Image source={require('../../../icons/emptyItems.png')} />
+        </View>
+      )}
     </View>
   );
 }

@@ -9,6 +9,7 @@ import formatRupiah from '../../helpers/formatRupiah';
 import {useSelector, useDispatch} from 'react-redux';
 import {itemToCart} from '../../store/actions/actionUserCart';
 import DialogCart from '../../components/DialogCart';
+import alert from '../../components/alert';
 function DetailItem(props) {
   const {itemInCart} = useSelector(state => state.dataCart);
   const dispatch = useDispatch();
@@ -24,7 +25,20 @@ function DetailItem(props) {
       console.log(err);
     }
   };
-
+  const addItemToCart = async (id, name) => {
+    try {
+      setShowDialogCart(true);
+      const response = await dispatch(itemToCart(id, name));
+      if (response.data && response.data.success) {
+        console.log(response.data);
+        // alert(response.data.success, response.data.msg);
+      } else {
+        alert(response.data.success, response.data.msg);
+      }
+    } catch (err) {
+      alert(err.response.data.success, err.response.data.msg);
+    }
+  };
   React.useEffect(() => {
     getDetailItem();
   }, [props]);
@@ -120,10 +134,9 @@ function DetailItem(props) {
                   justifyContent: 'center',
                 }}>
                 <TouchableOpacity
-                  onPress={() => {
-                    setShowDialogCart(true);
-                    dispatch(itemToCart(detailItem._id, detailItem.name));
-                  }}>
+                  onPress={() =>
+                    addItemToCart(detailItem._id, detailItem.name)
+                  }>
                   <>
                     <Badge
                       containerStyle={{bottom: -2, right: -20}}

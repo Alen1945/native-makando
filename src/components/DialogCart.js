@@ -8,6 +8,7 @@ import {Input, Button, Card} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
+import alert from './alert';
 export default function DialogCart(props) {
   const {visible, keyUpdateItem} = props;
   const navigation = useNavigation();
@@ -33,8 +34,14 @@ export default function DialogCart(props) {
   const removeItem = async (keyItem, idCart) => {
     try {
       const response = await dispatch(removeItemCart(keyItem, idCart));
+      if (response.data && response.data.success) {
+        console.log(response.data);
+      } else {
+        alert(response.data.success, response.data.msg);
+      }
       console.log(response.data);
     } catch (err) {
+      alert(err.response.data.success, err.response.data.msg);
       console.log(err);
     }
   };
@@ -138,9 +145,8 @@ export default function DialogCart(props) {
                   ),
                 })}
                 onSubmit={async values => {
-                  console.log(values);
                   try {
-                    await dispatch(
+                    const response = await dispatch(
                       updateItemCart(
                         `${itemInCart[keyUpdateItem].name_item}_${
                           itemInCart[keyUpdateItem].id_item
@@ -149,13 +155,20 @@ export default function DialogCart(props) {
                         values,
                       ),
                     );
+                    if (response.data && response.data.success) {
+                      console.log(response.data.data);
+                    } else {
+                      alert(response.data.success, response.data.msg);
+                    }
                   } catch (err) {
+                    alert(er.response.data.success, err.response.data.msg);
                     console.log(err);
                   }
                 }}>
                 {formikProps => (
                   <View style={{flexDirection: 'row', alignItems: 'center'}}>
                     <Input
+                      keyboardType="numeric"
                       placeholder="Total Items"
                       value={`${formikProps.values.total_items}`}
                       errorMessage={formikProps.errors.total_items}

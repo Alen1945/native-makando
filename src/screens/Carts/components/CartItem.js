@@ -9,10 +9,11 @@ import {
   removeItemCart,
   updateItemCart,
 } from '../../../store/actions/actionUserCart';
-import {useFormik, Formik} from 'formik';
+import {useFormik} from 'formik';
 import * as Yup from 'yup';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {API_URL} from 'react-native-dotenv';
+import alert from '../../../components/alert';
 
 export default function CartItem(props) {
   const {item, keyItem} = props;
@@ -36,9 +37,12 @@ export default function CartItem(props) {
         if (response.data && response.data.success) {
           dispatch(getUserCart());
           setIdUpdate(0);
+        } else {
+          alert(response.data.success, response.data.msg);
         }
       } catch (err) {
-        console.log(err);
+        alert(err.response.data.success, err.response.msg);
+        console.log('something', err);
       }
     },
   });
@@ -63,8 +67,14 @@ export default function CartItem(props) {
   const removeItem = async idCart => {
     try {
       const response = await dispatch(removeItemCart(keyItem, idCart));
-      console.log(response.data);
+      if (response.data && response.data.success) {
+        console.log(response.data);
+        // alert(response.data.success, response.data.msg);
+      } else {
+        alert(response.data.success, response.data.msg);
+      }
     } catch (err) {
+      alert(err.response.data.success, err.response.msg);
       console.log(err);
     }
   };
@@ -136,6 +146,7 @@ export default function CartItem(props) {
             </>
           ) : (
             <Input
+              keyboardType="numeric"
               placeholder="Total Items"
               value={`${updateFormik.values.total_items}`}
               errorMessage={updateFormik.errors.total_items}

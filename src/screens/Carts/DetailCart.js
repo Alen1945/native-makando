@@ -3,6 +3,7 @@ import {View, Text, Image, Button} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {clearUserCart} from '../../store/actions/actionUserCart';
 import getData from '../../helpers/getData';
+import alert from '../../components/alert';
 export default function DetailCart(props) {
   const [succesCheckout, setSuccesCheckout] = React.useState(false);
   const detailCart = useSelector(state => state.dataCart);
@@ -13,9 +14,12 @@ export default function DetailCart(props) {
       if (response.data && response.data.success) {
         await dispatch(clearUserCart());
         setSuccesCheckout(true);
+      } else {
+        alert(response.data.success, response.data.msg);
       }
       console.log(response.data);
     } catch (err) {
+      alert(err.response.data.success, err.response.data.msg);
       console.log(err);
     }
   };

@@ -49,7 +49,6 @@ export const itemToCart = (idItem, nameItem) => async dispatch => {
 export const updateItemCart = (keyItem, idCart, data) => async dispatch => {
   try {
     const response = await patchData('/carts/' + idCart, data);
-    console.log('update', response.data);
     if (response.data && response.data.success) {
       await dispatch({
         type: UPADATE_ITEM_CART,

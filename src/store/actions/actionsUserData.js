@@ -3,6 +3,7 @@ import {
   SET_USER_PROFILE,
   USER_LOGOUT,
   REFRESH_USER_TOKEN,
+  CLEAR_USER_CART,
 } from './actionTypes';
 import submitData from '../../helpers/submitData';
 import getData from '../../helpers/getData';
@@ -39,6 +40,9 @@ export const setUserProfile = () => async dispatch => {
 export const ActionLogout = () => dispatch => {
   dispatch({
     type: USER_LOGOUT,
+  });
+  dispatch({
+    type: CLEAR_USER_CART,
   });
 };
 

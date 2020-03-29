@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, View, Image} from 'react-native';
+import {Text, View, Image, Button} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {getUserCart} from '../../store/actions/actionUserCart';
 import CartItem from './components/CartItem';
@@ -41,6 +41,19 @@ export default function Carts(props) {
                   <CartItem item={item} keyItem={keyItem} key={item._id} />
                 );
               })}
+          {Object.keys(dataCart.itemInCart).length > 0 && (
+            <View style={{marginTop: 20}}>
+              <Button
+                title="Total Cost"
+                color="#f53649"
+                onPress={() =>
+                  props.navigation.navigate('DetailScreens', {
+                    screen: 'DetailCart',
+                  })
+                }
+              />
+            </View>
+          )}
           {Object.keys(dataCart.itemInCart).length < 1 && (
             <View
               style={{

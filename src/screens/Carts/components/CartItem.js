@@ -28,7 +28,7 @@ export default function CartItem(props) {
         'Required Total Item to Update',
       ),
     }),
-    onSubmit: async values => {
+    onSubmit: async (values, form) => {
       try {
         const response = await dispatch(
           updateItemCart(keyItem, idUpdate, values),

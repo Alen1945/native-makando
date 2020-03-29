@@ -4,6 +4,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {clearUserCart} from '../../store/actions/actionUserCart';
 import getData from '../../helpers/getData';
 import alert from '../../components/alert';
+import formatRupiah from '../../helpers/formatRupiah';
 export default function DetailCart(props) {
   const [succesCheckout, setSuccesCheckout] = React.useState(false);
   const detailCart = useSelector(state => state.dataCart);
@@ -23,7 +24,7 @@ export default function DetailCart(props) {
     }
   };
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1, backgroundColor: '#fff'}}>
       {!succesCheckout && (
         <View
           style={{
@@ -70,7 +71,7 @@ export default function DetailCart(props) {
               marginVertical: 10,
               color: '#555',
             }}>
-            Total Price Items : {detailCart.totalPrice}
+            Total Price Items : Rp. {formatRupiah(detailCart.totalPrice)}
           </Text>
           <Button
             title="Checkout Items"

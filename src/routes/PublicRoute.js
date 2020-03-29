@@ -3,6 +3,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import Guest from '../screens/Guest';
 import Register from '../screens/Register';
+import FormVerify from '../screens/Register/FormVerify';
 import Login from '../screens/Login';
 
 function PublicRoute(props) {
@@ -23,6 +24,11 @@ function PublicRoute(props) {
         <Stack.Screen
           name="Login"
           component={Login}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="AccountVerify"
+          component={FormVerify}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

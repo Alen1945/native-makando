@@ -17,11 +17,13 @@ function FormLogin(props) {
         username: Yup.string().required('This Field Is Required'),
         password: Yup.string().required('This Field is Required'),
       })}
-      onSubmit={async values => {
+      onSubmit={async (values, form) => {
         try {
           const response = await dispatch(ActionLogin(values));
           await dispatch(getUserCart());
           if (!response.data.success) {
+            form.setSubmitting(false);
+            form.resetForm();
             alert(response.data.success, response.data.msg);
           }
         } catch (err) {

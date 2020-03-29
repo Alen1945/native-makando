@@ -20,8 +20,10 @@ import * as Yup from 'yup';
 import {ScrollView} from 'react-native-gesture-handler';
 import pacthData from '../../helpers/patchData';
 import formatRupiah from '../../helpers/formatRupiah';
+import ImagePicker from 'react-native-image-picker';
 export default function Profile(props) {
   const {dataProfile} = useSelector(state => state.dataUser);
+  const [uriImageUpload, setUriImageUpload] = React.useState('');
   const dispatch = useDispatch();
   const [statusEdit, setStatusEdit] = React.useState(false);
   const formTopUp = useFormik({
@@ -30,7 +32,6 @@ export default function Profile(props) {
     validationSchema: Yup.object({nominal_topup: Yup.number().required()}),
     onSubmit: async (values, form) => {
       try {
-        console.log(values);
         const response = await submitData('/topup', values);
         if (response.data && response.data.success) {
           dispatch(setUserProfile());
@@ -43,6 +44,7 @@ export default function Profile(props) {
       }
     },
   });
+
   const formUpdate = useFormik({
     enableReinitialize: true,
     initialValues: dataProfile,
@@ -64,8 +66,15 @@ export default function Profile(props) {
         Object.keys(values)
           .filter(v => dataProfile[v] !== values[v])
           .forEach(v => {
-            console.log(v, values[v]);
-            formData.append(v, values[v]);
+            if (v === 'picture') {
+              formData.append(v, {
+                name: values[v].fileName,
+                type: values[v].type,
+                uri: values[v].uri,
+              });
+            } else {
+              formData.append(v, values[v]);
+            }
           });
         const response = await pacthData('/profile', formData);
         if (response.data && response.data.success) {
@@ -81,6 +90,18 @@ export default function Profile(props) {
       setStatusEdit(false);
     },
   });
+  const handleChangePicture = () => {
+    const options = {
+      noData: true,
+    };
+    ImagePicker.launchImageLibrary(options, response => {
+      if (response.uri) {
+        setUriImageUpload(response.uri);
+        formUpdate.setFieldValue('picture', response);
+        console.log(response);
+      }
+    });
+  };
   return (
     <>
       <View
@@ -98,6 +119,7 @@ export default function Profile(props) {
             borderTopStartRadius: 30,
             overflow: 'visible',
             paddingBottom: 10,
+            position: 'relative',
           }}>
           <Avatar
             rounded
@@ -105,7 +127,12 @@ export default function Profile(props) {
             size={120}
             elevator={1}
             containerStyle={{marginTop: -60, marginBottom: 10}}
-            source={{uri: `${API_URL}/${dataProfile.picture}`}}
+            source={{
+              uri:
+                statusEdit && uriImageUpload
+                  ? uriImageUpload
+                  : `${API_URL}/${dataProfile.picture}`,
+            }}
           />
           <View style={{alignItems: 'center'}}>
             <Text style={{fontSize: 18, color: '#444', fontWeight: 'bold'}}>
@@ -115,6 +142,23 @@ export default function Profile(props) {
               {dataProfile.fullname}
             </Text>
           </View>
+          {statusEdit && (
+            <TouchableOpacity
+              style={{position: 'absolute', top: -20}}
+              onPress={() => {
+                handleChangePicture();
+              }}>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <Icon
+                  reverse
+                  name="image"
+                  type="font-awesome"
+                  color="#ed574e"
+                  size={15}
+                />
+              </View>
+            </TouchableOpacity>
+          )}
         </View>
         <View
           style={{
@@ -193,7 +237,9 @@ export default function Profile(props) {
                   }}
                   titleStyle={{fontSize: 16, fontWeight: 'bold'}}
                   raised={true}
-                  onPress={() => formTopUp.handleSubmit()}
+                  onPress={() => {
+                    formTopUp.handleSubmit();
+                  }}
                   containerStyle={{
                     width: 100,
                     alignSelf: 'center',
@@ -372,7 +418,9 @@ export default function Profile(props) {
             <Button
               title="Update"
               style={{marginBottom: 20}}
-              onPress={() => formUpdate.handleSubmit()}
+              onPress={() => {
+                formUpdate.handleSubmit();
+              }}
             />
           </ScrollView>
         </View>

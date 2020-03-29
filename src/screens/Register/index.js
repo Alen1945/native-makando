@@ -55,7 +55,13 @@ export default function RegisterScreen(props) {
 
   return (
     <>
-      <View style={{paddingTop: 20, paddingHorizontal: 10, flex: 1}}>
+      <View
+        style={{
+          paddingTop: 20,
+          paddingHorizontal: 10,
+          flex: 1,
+          backgroundColor: '#fff',
+        }}>
         <View style={{height: 250, marginBottom: 15, alignItems: 'center'}}>
           <Image
             source={require('../../../icons/register1.png')}
@@ -72,7 +78,7 @@ export default function RegisterScreen(props) {
             Register To Our App
           </Text>
         </View>
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View style={{flex: 1, paddingHorizontal: 25, flexWrap: 'wrap'}}>
             <Input
               focus
@@ -85,7 +91,7 @@ export default function RegisterScreen(props) {
               inputContainerStyle={{
                 height: 50,
                 borderWidth: 1,
-                borderColor: '#fff',
+                borderColor: '#666',
                 borderRadius: 50,
                 marginBottom: 15,
               }}
@@ -100,7 +106,7 @@ export default function RegisterScreen(props) {
               inputContainerStyle={{
                 height: 50,
                 borderWidth: 1,
-                borderColor: '#fff',
+                borderColor: '#666',
                 borderRadius: 50,
                 marginBottom: 15,
               }}
@@ -116,7 +122,7 @@ export default function RegisterScreen(props) {
               inputContainerStyle={{
                 height: 50,
                 borderWidth: 1,
-                borderColor: '#fff',
+                borderColor: '#666',
                 borderRadius: 50,
                 marginBottom: 15,
               }}
@@ -132,7 +138,7 @@ export default function RegisterScreen(props) {
               inputContainerStyle={{
                 height: 50,
                 borderWidth: 1,
-                borderColor: '#fff',
+                borderColor: '#666',
                 borderRadius: 50,
                 marginBottom: 20,
               }}
@@ -181,7 +187,7 @@ export default function RegisterScreen(props) {
             flex: 1,
             backgroundColor: 'rgba(0,0,0,.4)',
           }}>
-          <Spinner color="blue"></Spinner>
+          <Spinner color="blue" />
         </View>
       )}
     </>

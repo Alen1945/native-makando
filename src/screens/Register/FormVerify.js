@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, Button} from 'react-native';
+import {View, Text, Button, Image} from 'react-native';
 import {Input} from 'react-native-elements';
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
@@ -32,7 +32,20 @@ export default function VerifyAccount(props) {
     },
   });
   return (
-    <View>
+    <View
+      style={{
+        padding: 20,
+        flex: 1,
+        backgroundColor: 'white',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
+      <Image
+        height="auto"
+        width="auto"
+        style={{marginBottom: 20}}
+        source={require('../../../icons/verify.png')}
+      />
       <Input
         placeholder="Code Verify"
         value={formVerify.values.code_verify}
@@ -42,20 +55,22 @@ export default function VerifyAccount(props) {
         inputContainerStyle={{
           height: 50,
           borderWidth: 1,
-          borderColor: '#fff',
+          borderColor: '#666',
           borderRadius: 50,
           marginBottom: 15,
         }}
       />
-      <Button
-        type="solid"
-        onPress={() => formVerify.handleSubmit()}
-        buttonStyle={{backgroundColor: '#ed574e', height: 50}}
-        titleStyle={{fontSize: 16, fontWeight: 'bold'}}
-        raised={true}
-        containerStyle={{marginBottom: 25}}
-        title="Verify"
-      />
+      <View style={{width: 200}}>
+        <Button
+          type="solid"
+          onPress={() => formVerify.handleSubmit()}
+          color="#ed574e"
+          titleStyle={{fontSize: 16, fontWeight: 'bold'}}
+          raised={true}
+          containerStyle={{marginBottom: 25}}
+          title="Verify"
+        />
+      </View>
     </View>
   );
 }

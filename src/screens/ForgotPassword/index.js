@@ -1,10 +1,11 @@
 import React from 'react';
-import {Text, View, TouchableOpacity} from 'react-native';
+import {Text, View, TouchableOpacity, Image} from 'react-native';
 import {Input, Button, Overlay} from 'react-native-elements';
 import {useFormik} from 'formik';
 import alert from '../../components/alert';
 import * as Yup from 'yup';
 import submitData from '../../helpers/submitData';
+import {ScrollView} from 'react-native-gesture-handler';
 export default function ForgotPassword(props) {
   const [isAccountExists, setIsAccountExists] = React.useState(false);
   const [codeVerify, setCodeVerify] = React.useState('');
@@ -61,7 +62,7 @@ export default function ForgotPassword(props) {
     },
   });
   return (
-    <View style={{padding: 20, flex: 1}}>
+    <View style={{padding: 20, flex: 1, backgroundColor: '#fff'}}>
       {!isAccountExists && (
         <>
           <Overlay
@@ -69,12 +70,16 @@ export default function ForgotPassword(props) {
             windowBackgroundColor="rgba(0,0, 0, .3)"
             overlayBackgroundColor="#fff"
             overlayStyle={{
-              width: 300,
-              height: 250,
+              width: '90%',
+              height: 300,
               padding: 10,
+              paddingHorizontal: 35,
+              borderRadius: 15,
               justifyContent: 'center',
             }}>
-            <>
+            <ScrollView
+              justifyContent="center"
+              showsVerticalScrollIndicator={false}>
               <Text
                 style={{
                   fontSize: 18,
@@ -112,37 +117,48 @@ export default function ForgotPassword(props) {
                   </Text>
                 </TouchableOpacity>
               </View>
-            </>
+            </ScrollView>
           </Overlay>
-          <Input
-            value={formCheckUsername.values.username}
-            errorMessage={formCheckUsername.errors.username}
-            onChangeText={formCheckUsername.handleChange('username')}
-            placeholder="Username"
-            inputStyle={{paddingHorizontal: 18}}
-            containerStyle={{
-              marginBottom: 25,
-            }}
-            inputContainerStyle={{
-              height: 50,
-              borderWidth: 1,
-              borderColor: '#444',
-              borderRadius: 50,
-            }}
-          />
-          <Button
-            type="solid"
-            buttonStyle={{backgroundColor: '#ed574e'}}
-            titleStyle={{fontSize: 16, fontWeight: 'bold'}}
-            raised={true}
-            onPress={() => formCheckUsername.handleSubmit()}
-            containerStyle={{marginBottom: 20}}
-            title="Request Code Reset"
-          />
+          <View style={{flex: 1, justifyContent: 'center'}}>
+            <Image
+              source={require('../../../icons/forgot.png')}
+              style={{marginBottom: 20}}
+            />
+            <Input
+              value={formCheckUsername.values.username}
+              errorMessage={formCheckUsername.errors.username}
+              onChangeText={formCheckUsername.handleChange('username')}
+              placeholder="Username"
+              inputStyle={{paddingHorizontal: 18}}
+              containerStyle={{
+                marginBottom: 25,
+              }}
+              inputContainerStyle={{
+                height: 50,
+                borderWidth: 1,
+                borderColor: '#444',
+                borderRadius: 50,
+              }}
+            />
+            <Button
+              type="solid"
+              buttonStyle={{backgroundColor: '#ed574e'}}
+              titleStyle={{fontSize: 16, fontWeight: 'bold'}}
+              raised={true}
+              onPress={() => formCheckUsername.handleSubmit()}
+              title="Request Code Reset"
+            />
+          </View>
         </>
       )}
       {isAccountExists && (
-        <>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{backgroundColor: '#fff'}}>
+          <Image
+            source={require('../../../icons/changePass.png')}
+            style={{marginBottom: 20}}
+          />
           <Input
             value={formResetPassword.values.code_verify}
             errorMessage={formResetPassword.errors.code_verify}
@@ -202,7 +218,7 @@ export default function ForgotPassword(props) {
             containerStyle={{marginBottom: 20}}
             title="Reset Password"
           />
-        </>
+        </ScrollView>
       )}
     </View>
   );

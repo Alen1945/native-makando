@@ -104,7 +104,7 @@ function Login(props) {
           <TouchableOpacity
             onPress={() => props.navigation.navigate('ForgotPassword')}>
             <Text style={{fontSize: 15, color: '#666', fontWeight: 'bold'}}>
-              ForgotPassword ?
+              Forgot Password ?
             </Text>
           </TouchableOpacity>
         </View>

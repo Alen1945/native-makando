@@ -11,6 +11,7 @@ import {SearchBar, Button, Avatar} from 'react-native-elements';
 import getData from '../../helpers/getData';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {API_URL} from 'react-native-dotenv';
+import {useSelector} from 'react-redux';
 import formatRupiah from '../../helpers/formatRupiah';
 function Items(props) {
   const {navigation} = props;

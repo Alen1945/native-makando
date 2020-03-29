@@ -163,6 +163,7 @@ function DetailItem(props) {
                       key={related.name + related._id}
                       component={View}
                       containerStyle={{
+                        width: 150,
                         marginRight: 0,
                         borderWidth: 0,
                       }}>

@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import getData from '../../helpers/getData';
+import {Card, Avatar} from 'react-native-elements';
 import {API_URL} from 'react-native-dotenv';
 function Restaurants(props) {
   const {navigation} = props;
@@ -26,44 +27,76 @@ function Restaurants(props) {
     getRestaurants();
   }, []);
   return (
-    <View
-      style={{flex: 1, backgroundColor: '#fff', padding: 10, paddingTop: 20}}>
-      <View style={{paddingBottom: 20, paddingHorizontal: 5}}>
+    <>
+      <View
+        style={{
+          elevation: 4,
+          backgroundColor: '#FFF',
+          height: 50,
+          paddingHorizontal: 10,
+          justifyContent: 'center',
+        }}>
+        <Text
+          style={{
+            fontSize: 17,
+            fontWeight: 'bold',
+            textAlign: 'center',
+            color: '#555',
+          }}>
+          Avaible Restaurants
+        </Text>
+      </View>
+      <View
+        style={{flex: 1, backgroundColor: '#fff', padding: 10, paddingTop: 20}}>
         <FlatList
           showsVerticalScrollIndicator={false}
           data={restaurants}
+          numColumns={2}
+          contentContainerStyle={{flex: 1}}
           keyExtractor={item => item.name + item._id}
           renderItem={({item}) => (
-            <View style={{marginBottom: 40}}>
+            <Card
+              containerStyle={{
+                width: 160,
+                marginHorizontal: 5,
+                borderWidth: 0,
+                elevation: 2,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
               <TouchableHighlight
                 onPress={() =>
                   navigation.navigate('DetailScreens', {
-                    screen: 'DetailItem',
+                    screen: 'DetailRestaurant',
                     params: {
                       id: item._id,
                     },
                   })
                 }>
                 <>
-                  <ImageBackground
-                    style={{height: 200, width: '100%', marginBottom: 10}}
+                  <Avatar
+                    elevation={3}
+                    rounded
+                    size={120}
                     source={{uri: `${API_URL}/${item.logo}`}}
                   />
                   <Text
                     style={{
                       fontWeight: 'bold',
                       textTransform: 'capitalize',
-                      fontSize: 18,
+                      fontSize: 16,
+                      color: '#434343',
+                      textAlign: 'center',
                     }}>
                     {item.name}
                   </Text>
                 </>
               </TouchableHighlight>
-            </View>
+            </Card>
           )}
         />
       </View>
-    </View>
+    </>
   );
 }
 

@@ -9,7 +9,6 @@ export default function Carts(props) {
   const dataCart = useSelector(state => state.dataCart);
   return (
     <View style={{flex: 1, backgroundColor: '#fff'}}>
-      {console.log('now data', dataCart)}
       <View
         style={{
           marginBottom: 10,

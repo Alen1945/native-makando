@@ -40,7 +40,7 @@ function Items(props) {
       if (category) {
         url = `/browse-categories/${category}?${condition}`;
       }
-      if (search && search.trim() && search.length > 3) {
+      if (search && search.trim() && search.length > 2) {
         url += `&search[name]=${search}`;
       }
       const response = await getData(url);
@@ -52,6 +52,7 @@ function Items(props) {
     }
   };
   const handleChangeCategory = categoryId => {
+    setActivePage(1);
     setActiveCategory(categoryId);
   };
   React.useEffect(() => {
@@ -61,7 +62,7 @@ function Items(props) {
     getItems(activePage, activeCategory);
   }, [activePage, activeCategory]);
   React.useEffect(() => {
-    if (search && search.trim() && search.length > 3) {
+    if (search && search.trim() && search.length > 2) {
       getItems(activePage, activeCategory);
     } else if (search.length === 0) {
       getItems(activePage, activeCategory);
@@ -94,7 +95,12 @@ function Items(props) {
               placeholder="Search Here..."
               round={false}
               value={search}
-              onChangeText={value => setSearch(value)}
+              onChangeText={value => {
+                if (value.length === 0 || value.length > 2) {
+                  setActivePage(1);
+                }
+                setSearch(value);
+              }}
               searchIcon={<Icon name="search" size={15} color="#999" />}
               containerStyle={{
                 backgroundColor: 'rgba(0,0,0,0)',

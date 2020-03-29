@@ -85,7 +85,7 @@ function MainScreens(props) {
           backgroundColor: '#fff',
         },
       }}>
-      <Tab.Screen name="Home" component={Home} />
+      <Tab.Screen name="Home" component={Home} options={{headerShown: true}} />
       <Tab.Screen name="Items" component={Items} />
       <Tab.Screen name="Carts" component={Carts} />
       <Tab.Screen name="Restaurants" component={Restaurants} />

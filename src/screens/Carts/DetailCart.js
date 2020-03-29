@@ -17,7 +17,6 @@ export default function DetailCart(props) {
       } else {
         alert(response.data.success, response.data.msg);
       }
-      console.log(response.data);
     } catch (err) {
       alert(err.response.data.success, err.response.data.msg);
       console.log(err);

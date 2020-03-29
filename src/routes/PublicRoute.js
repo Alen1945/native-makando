@@ -9,35 +9,33 @@ import ForgotPassword from '../screens/ForgotPassword';
 function PublicRoute(props) {
   const Stack = createStackNavigator();
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="Guest"
-          component={Guest}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="Register"
-          component={Register}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="Login"
-          component={Login}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="AccountVerify"
-          component={FormVerify}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="ForgotPassword"
-          component={ForgotPassword}
-          options={{headerShown: false}}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Guest"
+        component={Guest}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Register"
+        component={Register}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Login"
+        component={Login}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="AccountVerify"
+        component={FormVerify}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="ForgotPassword"
+        component={ForgotPassword}
+        options={{headerShown: false}}
+      />
+    </Stack.Navigator>
   );
 }
 

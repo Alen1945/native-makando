@@ -6,15 +6,13 @@ import DetailScreen from './components/DetailScreens';
 function PrivateRoute(props) {
   const Stack = createStackNavigator();
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          headerShown: false,
-        }}>
-        <Stack.Screen name="Main" component={MainScreens} />
-        <Stack.Screen name="DetailScreens" component={DetailScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <Stack.Screen name="Main" component={MainScreens} />
+      <Stack.Screen name="DetailScreens" component={DetailScreen} />
+    </Stack.Navigator>
   );
 }
 

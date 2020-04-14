@@ -47,7 +47,7 @@ export default function Profile(props) {
 
   const formUpdate = useFormik({
     enableReinitialize: true,
-    initialValues: dataProfile,
+    initialValues: {...dataProfile, gender: dataProfile.gender || 'male'},
     validationSchema: Yup.object({
       fullname: Yup.string().nullable(),
       email: Yup.string()
@@ -94,11 +94,10 @@ export default function Profile(props) {
     const options = {
       noData: true,
     };
-    ImagePicker.launchImageLibrary(options, response => {
+    ImagePicker.showImagePicker(options, response => {
       if (response.uri) {
         setUriImageUpload(response.uri);
         formUpdate.setFieldValue('picture', response);
-        console.log(response);
       }
     });
   };

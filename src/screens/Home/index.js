@@ -30,8 +30,10 @@ function Items(props) {
   const getLastOrder = async () => {
     try {
       const response = await getData('/history');
-      if (response.data) {
-        setLastOrder(response.data.data[0].listItem[0]);
+      if (response.data.data.length) {
+        setLastOrder(
+          response.data.data[response.data.data.length - 1].listItem[0],
+        );
       }
     } catch (err) {
       console.log(err);
@@ -150,7 +152,7 @@ function Items(props) {
               fontWeight: 'bold',
               color: '#555',
             }}>
-            Avaible Items
+            Available Products
           </Text>
           <View style={{paddingBottom: 20, paddingHorizontal: 5}}>
             {items &&

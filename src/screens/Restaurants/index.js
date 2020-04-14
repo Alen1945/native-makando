@@ -43,7 +43,7 @@ function Restaurants(props) {
             textAlign: 'center',
             color: '#555',
           }}>
-          Avaible Restaurants
+          Available Restaurants
         </Text>
       </View>
       <View

@@ -85,7 +85,7 @@ function Items(props) {
             textAlign: 'center',
             color: '#555',
           }}>
-          Avaible Items
+          Available Products
         </Text>
       </View>
       <View style={{flex: 1, backgroundColor: '#fff', padding: 10}}>

@@ -4,7 +4,7 @@ import PublicRoute from './PublicRoute';
 import Splash from '../screens/Splash';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import {actionLogout} from '../store/actions/actionsUserData';
+import {ActionLogout} from '../store/actions/actionsUserData';
 import {useSelector, useDispatch} from 'react-redux';
 import jwt_decode from 'jwt-decode';
 
@@ -14,7 +14,7 @@ function MainRoutes(props) {
   if (isLogin && token) {
     const payload = jwt_decode(token);
     if (new Date(payload.exp * 1000).getTime() - new Date().getTime() <= 0) {
-      return dispatch(actionLogout());
+      dispatch(ActionLogout());
     }
     return <PrivateRoute />;
   } else {

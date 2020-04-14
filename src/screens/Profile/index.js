@@ -84,7 +84,6 @@ export default function Profile(props) {
           alert(response.data.success, response.data.msg);
         }
       } catch (e) {
-        console.log(e);
         alert(e.response.data.success, e.response.data.msg);
       }
       setStatusEdit(false);
